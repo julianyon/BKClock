@@ -1,0 +1,4 @@
+.*.sw[k-p]
+.sw[k-p]
+*~
+__pycache__

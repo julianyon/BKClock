@@ -1,0 +1,155 @@
+#:kivy 1.9.0
+# vi: set ts=4 et fileencoding=utf-8 ff=unix:
+############################################################################
+#                                                                          #
+# Copyright © 2016 Julian R Yon <julian@julianyon.net>                     #
+#                                                                          #
+# This program is free software: you can redistribute it and/or modify it  #
+# under the terms of the GNU General Public License as published by the    #
+# Free Software Foundation, either version 3 of the License, or (at your   #
+# option) any later version.                                               #
+#                                                                          #
+# This program is distributed in the hope that it will be useful, but      #
+# WITHOUT ANY WARRANTY; without even the implied warranty of               #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General #
+# Public License for more details.                                         #
+#                                                                          #
+# You should have received a copy of the GNU General Public License along  #
+# with this program. If not, see <http://www.gnu.org/licenses/>.           #
+#                                                                          #
+############################################################################
+
+#:import ceil math.ceil
+#:import config main.config
+
+<Label>:
+    font_name: config['fonts'].setdefault('default','fonts/android/Roboto-Regular.ttf')
+
+<HourLabel>:
+    font_name: config['fonts'].get('clock-face', config['fonts']['default'])
+    font_size: self.parent.radius/5
+    roman: False
+    color: config['colors']['numerals'] + (1.0,)
+
+<ClockHand>:
+    rim_text: rim_text
+
+    Label:
+        id: rim_text
+        font_size: self.parent.parent.radius/10
+        font_name: config['fonts'].get('rim-text', config['fonts']['default'])
+        size: self.texture_size
+        padding: self.parent.height/50, self.parent.height/75
+        color: config['colors']['rim_text'] + (1.0,)
+
+        canvas.before:
+            Color:
+                rgba: self.parent.color + (0.5,)
+
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+<DigitalTime>:
+    markup: True
+    size: self.texture_size
+
+<ClockFace>:
+    size_hint: 1, 1
+
+    radius: min(self.width, self.height) / 2.2
+    digital_time: digital_time
+
+    canvas.before:
+        Color:
+            rgba: config['colors']['rim'] + (1.0,)
+        SmoothLine:
+            id: outline
+            circle: self.width/2, self.height/2, self.radius
+            close: True
+            width: ceil(min(self.width,self.height) / 240)
+
+    HourLabel:
+        hour: 1
+
+    HourLabel:
+        hour: 2
+
+    HourLabel:
+        hour: 3
+
+    HourLabel:
+        hour: 4
+
+    HourLabel:
+        hour: 5
+
+    HourLabel:
+        hour: 6
+
+    HourLabel:
+        hour: 7
+
+    HourLabel:
+        hour: 8
+
+    HourLabel:
+        hour: 9
+
+    HourLabel:
+        hour: 10
+
+    HourLabel:
+        hour: 11
+
+    HourLabel:
+        hour: 12
+
+    HourHand:
+
+    MinuteHand:
+
+    SecondHand:
+
+    DigitalTime24:
+        id: digital_time
+        font_name: config['fonts'].get('digital-24', config['fonts']['default'])
+        font_size: self.parent.radius/6
+        center_x: self.width/2
+        center_y: self.height/3
+
+<BKClock>:
+    orientation: 'vertical'
+
+    clock_face: clock_face
+    digital_24: clock_face.digital_time
+    digital_12: digital_time
+    word_clock: word_clock
+    date_display: date_display
+
+    DateDisplay:
+        id: date_display
+        size_hint: 1, 0.2
+        font_name: config['fonts'].get('date', config['fonts']['default'])
+        font_size: min(clock_face.width, clock_face.height) / 18
+        halign: 'center'
+        markup: True
+
+    ClockFace:
+        id: clock_face
+        size_hint: 1, 1
+
+    WordClock:
+        id: word_clock
+        size_hint: 1, 0.2
+        font_name: config['fonts'].get('word-clock', config['fonts']['default'])
+        font_size: min(clock_face.width, clock_face.height) / 15
+        halign: 'center'
+        markup: True
+
+    DigitalTime12:
+        id: digital_time
+        size_hint: 1, 0.2
+        font_name: config['fonts'].get('digital-12', config['fonts']['default'])
+        font_size: min(clock_face.width, clock_face.height) / 10
+
